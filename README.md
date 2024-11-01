@@ -14,7 +14,7 @@ Programação Imperativa e Funcional - 2024.2
 CESAR School
 
 ## Link do Repositório
-[Repositório no GitHub](https://github.com/YlsonSantos/Projeto-C.git)
+[Repositório no GitHub](https://github.com/YlsonSantos/Jogo-C.git)
 
 ## Instruções de Compilação e Execução
 
