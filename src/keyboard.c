@@ -1,68 +1,46 @@
-/**
- * keyboard.h
- * Created on Aug, 23th 2023
- * Author: Tiago Barros
- * Based on "From C to C++ course - 2002"
-*/
-
-#include <termios.h>
-#include <unistd.h>
+// src/keyboard.c
 
 #include "keyboard.h"
+#include <stdio.h>
 
-static struct termios initialSettings, newSettings;
-static int peekCharacter;
+#ifdef _WIN32
+#include <conio.h>
+#else
+#include <termios.h>
+#include <unistd.h>
+#endif
 
-
-void keyboardInit()
-{
-    tcgetattr(0,&initialSettings);
-    newSettings = initialSettings;
-    newSettings.c_lflag &= ~ICANON;
-    newSettings.c_lflag &= ~ECHO;
-    newSettings.c_lflag &= ~ISIG;
-    newSettings.c_cc[VMIN] = 1;
-    newSettings.c_cc[VTIME] = 0;
-    tcsetattr(0, TCSANOW, &newSettings);
+void initKeyboard() {
+#ifdef _WIN32
+    // No need to initialize on Windows when using conio.h
+#else
+    static struct termios old, current;
+    tcgetattr(STDIN_FILENO, &old);
+    current = old;
+    current.c_lflag &= ~ICANON;
+    tcsetattr(STDIN_FILENO, TCSANOW, &current);
+#endif
 }
 
-void keyboardDestroy()
-{
-    tcsetattr(0, TCSANOW, &initialSettings);
+void closeKeyboard() {
+#ifdef _WIN32
+    // No need to close on Windows when using conio.h
+#else
+    struct termios old;
+    tcgetattr(STDIN_FILENO, &old);
+    tcsetattr(STDIN_FILENO, TCSANOW, &old);
+#endif
 }
 
-int keyhit()
-{
-    unsigned char ch;
-    int nread;
-
-    if (peekCharacter != -1) return 1;
-    
-    newSettings.c_cc[VMIN]=0;
-    tcsetattr(0, TCSANOW, &newSettings);
-    nread = read(0,&ch,1);
-    newSettings.c_cc[VMIN]=1;
-    tcsetattr(0, TCSANOW, &newSettings);
-    
-    if(nread == 1) 
-    {
-        peekCharacter = ch;
-        return 1;
+int getKeyPress() {
+#ifdef _WIN32
+    if (_kbhit()) {
+        return _getch();
+    } else {
+        return -1;  // No key pressed
     }
-    
-    return 0;
-}
-
-int readch()
-{
-    char ch;
-
-    if(peekCharacter != -1)
-    {
-        ch = peekCharacter;
-        peekCharacter = -1;
-        return ch;
-    }
-    read(0,&ch,1);
+#else
+    int ch = getchar();
     return ch;
+#endif
 }
