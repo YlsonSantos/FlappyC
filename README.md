@@ -1,4 +1,4 @@
-# Nome do Jogo: 
+# Nome do Jogo: SnakeC
 
 ## Membros da Equipe
 | Nome               | Função             | GitHub             |
@@ -45,6 +45,8 @@ Para remover os arquivos gerados durante a compilação, execute:
 - Use as **teclas de direção** para mover a cobra para cima, baixo, esquerda ou direita.
 - Colete as frutas para aumentar a pontuação.
 - Evite colidir com as bordas e com o próprio corpo.
+
+## Bom jogo e boa diversão!
 
 /projeto
 ├── src/ # Código-fonte (.c)
