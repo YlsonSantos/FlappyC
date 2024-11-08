@@ -1,4 +1,4 @@
-# Nome do Jogo: SnakeC
+# Nome do Jogo: FlappyC
 
 ## Membros da Equipe
 | Nome               | Função             | GitHub             |
@@ -14,7 +14,7 @@ Programação Imperativa e Funcional - 2024.2
 CESAR School
 
 ## Link do Repositório
-[Repositório no GitHub](https://github.com/YlsonSantos/Jogo-C.git)
+[Repositório no GitHub](https://github.com/YlsonSantos/FlappyC.git)
 
 ## Instruções de Compilação e Execução
 
@@ -25,15 +25,15 @@ CESAR School
 
 ### Compilação
 No diretório raiz do projeto, compile o jogo com o comando:
-gcc src/main.c src/keyboard.c src/screen.c src/timer.c -o build/FlappyC.exe -I include -Wall
+`gcc src/main.c src/keyboard.c src/screen.c src/timer.c -o build/FlappyC.exe -I include -Wall`
 
 ### Execução
 Após a compilação, para jogar, utilize o comando: 
-build\FlappyC.exe
+`build\FlappyC.exe`
 
 ### Limpeza
 Para remover os arquivos gerados durante a compilação, execute:
-make clean
+`make clean`
 
 
 ## Descrição do Jogo
