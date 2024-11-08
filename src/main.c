@@ -1,88 +1,99 @@
-/**
- * main.h
- * Created on Aug, 23th 2023
- * Author: Tiago Barros
- * Based on "From C to C++ course - 2002"
-*/
-
-#include <string.h>
-
+#include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
+#include <windows.h>
 #include "screen.h"
 #include "keyboard.h"
 #include "timer.h"
 
-int x = 34, y = 12;
-int incX = 1, incY = 1;
+#define pipeCount 3
 
-void printHello(int nextX, int nextY)
-{
-    screenSetColor(CYAN, DARKGRAY);
-    screenGotoxy(x, y);
-    printf("           ");
-    x = nextX;
-    y = nextY;
-    screenGotoxy(x, y);
-    printf("Hello World");
-}
+Bird bird;
+PIX pipes[pipeCount];
+int score = 0;
+int passed[pipeCount] = {0, 0, 0};
 
-void printKey(int ch)
-{
-    screenSetColor(YELLOW, DARKGRAY);
-    screenGotoxy(35, 22);
-    printf("Key code :");
+int gameTime = 0;
+int delayTime = 200;
+float accelerationFactor = 0.95;
 
-    screenGotoxy(34, 23);
-    printf("            ");
-    
-    if (ch == 27) screenGotoxy(36, 23);
-    else screenGotoxy(39, 23);
+void initGame() {
+    bird.x = 10;
+    bird.y = 10;
 
-    printf("%d ", ch);
-    while (keyhit())
-    {
-        printf("%d ", readch());
+    for (int i = 0; i < pipeCount; i++) {
+        pipes[i].x = 25 + 15 * i;
+        pipes[i].y = (rand() % 7) + 5;
     }
 }
 
-int main() 
-{
-    static int ch = 0;
+void updateGame() {
+    if (isSpacePressed()) {
+        bird.y -= 2;
+    }
 
-    screenInit(1);
-    keyboardInit();
-    timerInit(50);
+    bird.y++;
 
-    printHello(x, y);
-    screenUpdate();
+    for (int i = 0; i < pipeCount; i++) {
+        pipes[i].x--;
 
-    while (ch != 10) //enter
-    {
-        // Handle user input
-        if (keyhit()) 
-        {
-            ch = readch();
-            printKey(ch);
-            screenUpdate();
+        if (pipes[i].x == -1) {
+            pipes[i].x = pipes[(i + 2) % 3].x + 15;
+            pipes[i].y = (rand() % 7) + 5;
+            passed[i] = 0;
         }
+    }
+}
 
-        // Update game state (move elements, verify collision, etc)
-        if (timerTimeOver() == 1)
-        {
-            int newX = x + incX;
-            if (newX >= (MAXX -strlen("Hello World") -1) || newX <= MINX+1) incX = -incX;
-            int newY = y + incY;
-            if (newY >= MAXY-1 || newY <= MINY+1) incY = -incY;
+int checkCollision() {
+    if (bird.y >= ySize) return 1;
+    if (bird.y <= 0) return 1;
 
-            printKey(ch);
-            printHello(newX, newY);
-
-            screenUpdate();
+    for (int i = 0; i < pipeCount; i++) {
+        if (bird.x >= pipes[i].x && bird.x <= pipes[i].x + 2 &&
+            (bird.y < pipes[i].y - 2 || bird.y > pipes[i].y + 2)) {
+            return 1;
         }
     }
 
-    keyboardDestroy();
-    screenDestroy();
-    timerDestroy();
+    return 0;
+}
+
+void checkScore() {
+    for (int i = 0; i < pipeCount; i++) {
+        if (bird.x > pipes[i].x + 2 && passed[i] == 0) {
+            score++;
+            passed[i] = 1;
+        }
+    }
+}
+
+int main() {
+    srand(time(NULL));
+    initGame();
+
+    printf("Pressione Espaço para pular e 'Q' para sair.\n");
+
+    while (1) {
+        if (GetAsyncKeyState(0x51)) break;
+
+        updateGame();
+        checkScore();
+        Draw(bird, pipes, pipeCount, score);
+
+        if (checkCollision()) {
+            printf("\nGame Over!\n");
+            printf("Pontuacao final: %d\n", score);
+            break;
+        }
+
+        gameTime++;
+        if (gameTime % 30 == 0) {
+            delayTime *= accelerationFactor;
+        }
+
+        delay(delayTime);
+    }
 
     return 0;
 }
