@@ -1,4 +1,4 @@
-# Nome do Jogo: SnakeC
+# Nome do Jogo: FlappyC
 
 ## Membros da Equipe
 | Nome               | Função             | GitHub             |
@@ -14,44 +14,41 @@ Programação Imperativa e Funcional - 2024.2
 CESAR School
 
 ## Link do Repositório
-[Repositório no GitHub](https://github.com/YlsonSantos/Jogo-C.git)
+[Repositório no GitHub](https://github.com/YlsonSantos/FlappyC.git)
 
 ## Instruções de Compilação e Execução
 
 ### Requisitos
 - **Compilador C** (recomenda-se `gcc` ou `clang`)
-- **cli-lib** (certifique-se de incluir a biblioteca e suas dependências no projeto)
-- **Sistema compatível com Makefile** (Unix/Linux rodando na máquina virtual Oracle VirtualBox)
+- Biblioteca **cli-lib** (Certifique-se de incluir a biblioteca e suas dependências no projeto)(certifique-se de incluir a biblioteca e suas dependências no projeto)
+- Sistema compatível com Makefile (Unix/Linux ou Windows com MinGW ou Cygwin)
 
 ### Compilação
 No diretório raiz do projeto, compile o jogo com o comando:
-O executável será gerado na pasta build/.
+`gcc src/main.c src/keyboard.c src/screen.c src/timer.c -o build/FlappyC.exe -I include -Wall`
 
 ### Execução
-Após a compilação, para jogar, utilize o comando:
+Após a compilação, para jogar, utilize o comando: 
+`build\FlappyC.exe`
 
 ### Limpeza
 Para remover os arquivos gerados durante a compilação, execute:
+`make clean`
+
 
 ## Descrição do Jogo
-`SnakeC` é uma versão clássica do jogo da cobrinha jogável no terminal. O objetivo é comer frutas que aparecem na tela, fazendo a cobra crescer de tamanho e aumentando a pontuação. O jogo fica mais desafiador conforme a cobra cresce.
+`FlappyC` é uma versão clássica do jogo Flappy Bird jogável no terminal. O objetivo do jogo é controlar um pássaro para evitar os canos enquanto coleta pontos. O jogo fica mais desafiador conforme o tempo passa e o pássaro precisa navegar entre canos em movimento.
 
 ### Regras do Jogo
-- Controle a cobra usando as teclas direcionais do teclado.
-- Cada fruta coletada aumenta o tamanho da cobra e incrementa a pontuação.
-- O jogo termina se a cobra colidir com as paredes ou com seu próprio corpo.
+- Use a tecla Espaço para fazer o pássaro subir.
+- O pássaro desce automaticamente devido à gravidade
+- Cada vez que o pássaro passa por um cano, a pontuação aumenta.
+- O jogo termina se o pássaro colidir com um cano ou o chão.
 
 ### Como Jogar
-- Use as **teclas de direção** para mover a cobra para cima, baixo, esquerda ou direita.
-- Colete as frutas para aumentar a pontuação.
-- Evite colidir com as bordas e com o próprio corpo.
+- Pressione a tecla **Espaço** para fazer o pássaro subir.
+- O pássaro descerá automaticamente devido à gravidade
+- Tente passar pelos canos e aumentar sua pontuação.
+- Evite bater nos canos ou no chão.
 
 ## Bom jogo e boa diversão!
-
-/projeto
-├── src/ # Código-fonte (.c)
-├── include/ # Cabeçalhos (.h)
-├── build/ # Saídas de compilação
-├── README.md # Descrição do projeto
-├── Makefile # Arquivo de build
-└── LICENSE # Licença

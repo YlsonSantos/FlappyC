@@ -1,21 +1,46 @@
-// src/screen.c
-
-#include "screen.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "screen.h"
+#include "keyboard.h"
 
-void clearScreen() {
-    printf("\033[H\033[J");  // Comando ANSI para limpar a tela
-}
+#define GREEN       "\e[32m"
+#define YELLOW      "\e[33m"
+#define NC          "\e[0m"
 
-void drawSnake(int x, int y) {
-    printf("\033[%d;%dHO", y, x); // Desenha a cobra na posição (x, y) usando 'O'
+void Draw(Bird bird, PIX pipes[], int pipeCount, int score) {
+    char buff[5000];
+    strcpy(buff, "\e[17A");
 
-}
+    printf("Score: %d\n", score);
+    for (int y = 0; y <= ySize; y++) {
+        for (int x = 0; x <= xSize; x++) {
+            if (y == 0 || y == ySize || x == 0 || x == xSize) {
+                strcat(buff, NC "[]");
+                continue;
+            }
 
-void drawFood(int x, int y) {
-    printf("\033[%d;%dH*", y, x); // Desenha a comida na posição (x, y)
-}
+            int Draw = 0;
+            for (int i = 0; i < pipeCount; i++) {
+                if (pipes[i].x == x) {
+                    if (y < pipes[i].y - 2 || y > pipes[i].y + 2) {
+                        strcat(buff, GREEN "[]");
+                        Draw = 1;
+                        break;
+                    }
+                }
+            }
 
-void displayScore(int score) {
-    printf("\033[0;0HScore: %d\n", score); // Exibe a pontuação no topo
+            if (Draw == 0) {
+                if (bird.y == y && bird.x == x) {
+                    strcat(buff, YELLOW "O>"); 
+                } else {
+                    strcat(buff, NC "  ");
+                }
+            }
+        }
+        strcat(buff, "\n");
+    }
+
+    printf("%s", buff);
 }

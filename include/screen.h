@@ -1,11 +1,19 @@
-// include/screen.h
-
 #ifndef SCREEN_H
 #define SCREEN_H
 
-void clearScreen();               // Limpa a tela
-void drawSnake(int x, int y);     // Desenha a cobrinha
-void drawFood(int x, int y);      // Desenha a comida
-void displayScore(int score);     // Exibe a pontuação
+#define xSize 32
+#define ySize 16
+
+typedef struct {
+    int x;
+    int y;
+} Bird;
+
+typedef struct {
+    int x;
+    int y;
+} PIX;
+
+void Draw(Bird bird, PIX pipes[], int pipeCount, int score);
 
 #endif
