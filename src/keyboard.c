@@ -1,4 +1,3 @@
-// src/keyboard.c
 #include <windows.h>
 #include "keyboard.h"
 
