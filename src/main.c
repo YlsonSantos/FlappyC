@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-#include <windows.h>
+#include <windows.h>  // Pode ser removido se for necessário usar Linux/macOS
 #include "screen.h"
 #include "keyboard.h"
 #include "timer.h"
@@ -9,9 +9,9 @@
 #define pipeCount 3
 
 Bird bird;
-PIX *pipes; 
+PIX *pipes;  // Usando ponteiro para PIX
 int score = 0;
-int *passed; 
+int *passed;  // Usando ponteiro para o array 'passed'
 
 int gameTime = 0;
 int delayTime = 200;
@@ -21,6 +21,7 @@ void initGame() {
     bird.x = 10;
     bird.y = 10;
 
+    // Aloca dinamicamente o array de pipes e o array 'passed'
     pipes = (PIX *)malloc(pipeCount * sizeof(PIX));
     passed = (int *)malloc(pipeCount * sizeof(int));
 
@@ -37,6 +38,7 @@ void initGame() {
 }
 
 void freeMemory() {
+    // Libera a memória alocada dinamicamente
     free(pipes);
     free(passed);
 }
@@ -109,7 +111,7 @@ int main() {
         delay(delayTime);
     }
 
-    freeMemory(); 
+    freeMemory();  // Libera a memória antes de sair
 
     return 0;
 }
