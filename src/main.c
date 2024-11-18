@@ -9,9 +9,9 @@
 #define pipeCount 3
 
 Bird bird;
-PIX pipes[pipeCount];
+PIX *pipes; 
 int score = 0;
-int passed[pipeCount] = {0, 0, 0};
+int *passed; 
 
 int gameTime = 0;
 int delayTime = 200;
@@ -21,10 +21,24 @@ void initGame() {
     bird.x = 10;
     bird.y = 10;
 
+    pipes = (PIX *)malloc(pipeCount * sizeof(PIX));
+    passed = (int *)malloc(pipeCount * sizeof(int));
+
+    if (pipes == NULL || passed == NULL) {
+        printf("Erro na alocação de memória!\n");
+        exit(1);
+    }
+
     for (int i = 0; i < pipeCount; i++) {
         pipes[i].x = 25 + 15 * i;
         pipes[i].y = (rand() % 7) + 5;
+        passed[i] = 0;
     }
+}
+
+void freeMemory() {
+    free(pipes);
+    free(passed);
 }
 
 void updateGame() {
@@ -94,6 +108,8 @@ int main() {
 
         delay(delayTime);
     }
+
+    freeMemory(); 
 
     return 0;
 }
