@@ -25,7 +25,7 @@ CESAR School
 
 ### Compilação
 No diretório raiz do projeto, compile o jogo com o comando:
-`gcc src/main.c src/keyboard.c src/screen.c src/timer.c -o build/FlappyC.exe -I include -Wall`
+`gcc src/main.c src/keyboard.c src/screen.c src/timer.c src/menu.c -o build/FlappyC.exe -I include -Wall`
 
 ### Execução
 Após a compilação, para jogar, utilize o comando: 

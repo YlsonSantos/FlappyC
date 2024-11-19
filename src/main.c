@@ -1,27 +1,29 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-#include <windows.h>  // Pode ser removido se for necessário usar Linux/macOS
+#include <string.h>
 #include "screen.h"
 #include "keyboard.h"
 #include "timer.h"
+#include "menu.h"  
 
 #define pipeCount 3
 
 Bird bird;
-PIX *pipes;  // Usando ponteiro para PIX
+PIX *pipes;
 int score = 0;
-int *passed;  // Usando ponteiro para o array 'passed'
+int *passed;
 
 int gameTime = 0;
 int delayTime = 200;
 float accelerationFactor = 0.95;
 
+char playerName[50];  
+
 void initGame() {
     bird.x = 10;
     bird.y = 10;
 
-    // Aloca dinamicamente o array de pipes e o array 'passed'
     pipes = (PIX *)malloc(pipeCount * sizeof(PIX));
     passed = (int *)malloc(pipeCount * sizeof(int));
 
@@ -38,7 +40,6 @@ void initGame() {
 }
 
 void freeMemory() {
-    // Libera a memória alocada dinamicamente
     free(pipes);
     free(passed);
 }
@@ -84,34 +85,76 @@ void checkScore() {
     }
 }
 
+void playAgain() {
+    int choice;
+    printf("\nVoltar ao menu\n");
+    printf("1. Sim\n2. Ver pontuacoes\n3. Sair\n");
+    scanf("%d", &choice);
+
+    if (choice == 1) {
+        score = 0;
+        initGame();
+    } else if (choice == 2) {
+        showScores();
+    } else {
+        printf("Saindo do jogo...\n");
+        exit(0);
+    }
+}
+
 int main() {
     srand(time(NULL));
-    initGame();
 
-    printf("Pressione Espaço para pular e 'Q' para sair.\n");
+    loadScores();
 
+    int choice;
     while (1) {
-        if (GetAsyncKeyState(0x51)) break;
+        showMenu();
+        printf("Escolha uma opcao: ");
+        scanf("%d", &choice);
+        
+        if (choice == 1) {
+            printf("Digite seu nome: ");
+            getchar();  
+            fgets(playerName, 50, stdin);
+            playerName[strcspn(playerName, "\n")] = 0;  
 
-        updateGame();
-        checkScore();
-        Draw(bird, pipes, pipeCount, score);
+            initGame();
+            printf("Pressione Espaço para pular.\n");
 
-        if (checkCollision()) {
-            printf("\nGame Over!\n");
-            printf("Pontuacao final: %d\n", score);
+            while (1) {
+                updateGame();
+                checkScore();
+                Draw(bird, pipes, pipeCount, score);
+
+                if (checkCollision()) {
+                    printf("\nGame Over!\n");
+                    printf("Pontuacao final: %d\n", score);
+
+                    saveScore(playerName, score);
+
+                    playAgain(); 
+                    break;
+                }
+
+                gameTime++;
+                if (gameTime % 30 == 0) {
+                    delayTime *= accelerationFactor;
+                }
+
+                delay(delayTime);
+            }
+
+        } else if (choice == 2) {
+            showScores();
+        } else if (choice == 3) {
+            printf("Saindo do jogo...\n");
             break;
+        } else {
+            printf("Opção invalida! Tente novamente.\n");
         }
-
-        gameTime++;
-        if (gameTime % 30 == 0) {
-            delayTime *= accelerationFactor;
-        }
-
-        delay(delayTime);
     }
 
-    freeMemory();  // Libera a memória antes de sair
-
+    freeMemory();
     return 0;
 }

@@ -33,7 +33,7 @@ void Draw(Bird bird, PIX pipes[], int pipeCount, int score) {
 
             if (Draw == 0) {
                 if (bird.y == y && bird.x == x) {
-                    strcat(buff, YELLOW "O>"); 
+                    strcat(buff, YELLOW "O>");
                 } else {
                     strcat(buff, NC "  ");
                 }
