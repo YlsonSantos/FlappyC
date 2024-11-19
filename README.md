@@ -54,10 +54,9 @@ Menu Inicial:
     - Sair: Encerre o jogo.
 
 Durante o Jogo:
-- Pressione a tecla Espaço para fazer o pássaro subir.
-- O pássaro descerá automaticamente devido à gravidade.
-- Tente passar pelos canos e aumentar sua pontuação. A pontuação é aumentada a cada cano ultrapassado.
-- Evite bater nos canos ou no chão. Se isso acontecer, o jogo terminará e você poderá ver sua pontuação final.
+- Pressione Espaço para fazer o pássaro subir.
+- Tente passar pelos canos para aumentar sua pontuação.
+- Evite bater nos canos ou no chão, ou o jogo terminará.
 
 Pós-Jogo:
 - Ranking de Pontuação: Após o jogo, você verá sua pontuação final e poderá comparar com as pontuações mais altas no ranking.
