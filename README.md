@@ -46,9 +46,19 @@ Para remover os arquivos gerados durante a compilação, execute:
 - O jogo termina se o pássaro colidir com um cano ou o chão.
 
 ### Como Jogar
-- Pressione a tecla **Espaço** para fazer o pássaro subir.
-- O pássaro descerá automaticamente devido à gravidade
-- Tente passar pelos canos e aumentar sua pontuação.
-- Evite bater nos canos ou no chão.
-
+Menu Inicial:
+- Navegue pelo menu usando as teclas Seta para Cima e Seta para Baixo para selecionar entre as opções.
+- Pressione Enter para escolher uma opção:
+    - Iniciar Jogo: Comece a jogar.
+    - Ver Pontuação: Veja sua pontuação atual e o ranking.
+    - Sair: Encerre o jogo.
+Durante o Jogo:
+- Pressione a tecla Espaço para fazer o pássaro subir.
+- O pássaro descerá automaticamente devido à gravidade.
+- Tente passar pelos canos e aumentar sua pontuação. A pontuação é aumentada a cada cano ultrapassado.
+- Evite bater nos canos ou no chão. Se isso acontecer, o jogo terminará e você poderá ver sua pontuação final.
+Pós-Jogo:
+- Ranking de Pontuação: Após o jogo, você verá sua pontuação final e poderá comparar com as pontuações mais altas no ranking.
+    - As melhores pontuações serão salvas e exibidas para motivar sua próxima tentativa.
+    
 ## Bom jogo e boa diversão!
