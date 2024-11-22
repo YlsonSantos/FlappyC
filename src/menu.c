@@ -11,7 +11,7 @@ typedef struct {
     int score;
 } Player;
 
-Player highScores[MAX_PLAYERS];
+Player highScores[MAX_PLAYERS]; // array do tipo Player para armazenar o ranking de jogadores.
 int scoreCount = 0;
 
 void clearScreen() {
@@ -22,7 +22,7 @@ void clearScreen() {
     #endif
 }
 
-void loadScores() {
+void loadScores() { // Função para carregar as pontuações de um arquivo CSV.
     FILE *file = fopen(SCORE_FILE, "r");
     if (file) {
         while (fscanf(file, "%49[^,],%d\n", highScores[scoreCount].name, &highScores[scoreCount].score) == 2) {
@@ -32,7 +32,7 @@ void loadScores() {
     }
 }
 
-void saveScoresToFile() {
+void saveScoresToFile() { // Função para salvar as pontuações no arquivo CSV.
     FILE *file = fopen(SCORE_FILE, "w");
     if (file) {
         for (int i = 0; i < scoreCount; i++) {
@@ -50,7 +50,7 @@ void showMenu() {
     printf("3. Sair\n");
 }
 
-void saveScore(const char* name, int score) {
+void saveScore(const char* name, int score) { // Função para salvar a pontuação de um jogador.
     if (scoreCount < MAX_PLAYERS) {
         strncpy(highScores[scoreCount].name, name, 50);
         highScores[scoreCount].score = score;
@@ -61,10 +61,10 @@ void saveScore(const char* name, int score) {
     saveScoresToFile();
 }
 
-void showScores() {
+void showScores() { // Função para exibir o ranking de pontuações.
     clearScreen();
 
-    for (int i = 0; i < scoreCount - 1; i++) {
+    for (int i = 0; i < scoreCount - 1; i++) { // Ordenar as pontuações em ordem decrescente.
         for (int j = i + 1; j < scoreCount; j++) {
             if (highScores[i].score < highScores[j].score) {
                 Player temp = highScores[i];
@@ -76,9 +76,9 @@ void showScores() {
 
     printf("\nRanking de Pontuacoes:\n");
     if (scoreCount == 0) {
-        printf("Nenhuma pontuação salva.\n");
+        printf("Nenhuma pontuacao salva.\n");
     } else {
-        for (int i = 0; i < scoreCount; i++) {
+        for (int i = 0; i < scoreCount; i++) { // Exibe as pontuações dos jogadores no ranking.
             printf("%d. %s - %d pontos\n", i + 1, highScores[i].name, highScores[i].score);
         }
     }

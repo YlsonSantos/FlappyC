@@ -2,7 +2,7 @@
 #include <windows.h>
 #include "keyboard.h"
 
-int isSpacePressed() {
+int isSpacePressed() { // GetAsyncKeyState verifica o estado da tecla espaço.
     return GetAsyncKeyState(VK_SPACE);
 }
 #else

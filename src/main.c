@@ -16,14 +16,16 @@ int *passed;
 
 int gameTime = 0;
 int delayTime = 200;
-float accelerationFactor = 0.95;
+float acceleratioanFctor = 0.95;
 
 char playerName[50];  
 
 void initGame() {
     bird.x = 10;
     bird.y = 10;
+    score = 0;
 
+    // Aloca memória para os obstáculos e para o controle de passagem.
     pipes = (PIX *)malloc(pipeCount * sizeof(PIX));
     passed = (int *)malloc(pipeCount * sizeof(int));
 
@@ -32,6 +34,7 @@ void initGame() {
         exit(1);
     }
 
+    // Inicializa os obstáculos com posições aleatórias.
     for (int i = 0; i < pipeCount; i++) {
         pipes[i].x = 25 + 15 * i;
         pipes[i].y = (rand() % 7) + 5;
@@ -49,12 +52,13 @@ void updateGame() {
         bird.y -= 2;
     }
 
-    bird.y++;
+    bird.y++; // Faz o pássaro "cair" devido à gravidade.
 
     for (int i = 0; i < pipeCount; i++) {
-        pipes[i].x--;
+        pipes[i].x--; // Move os obstáculos para a esquerda.
 
-        if (pipes[i].x == -1) {
+        if (pipes[i].x == -1) { // Quando um obstáculo sai da tela.
+            // Reposiciona o obstáculo à frente.
             pipes[i].x = pipes[(i + 2) % 3].x + 15;
             pipes[i].y = (rand() % 7) + 5;
             passed[i] = 0;
@@ -63,9 +67,10 @@ void updateGame() {
 }
 
 int checkCollision() {
-    if (bird.y >= ySize) return 1;
-    if (bird.y <= 0) return 1;
+    if (bird.y >= ySize) return 1;  //Colisão com os limites da tela.
+    if (bird.y <= 0) return 1; //Colisão com os limites da tela
 
+    // Verifica colisão com os obstáculos.
     for (int i = 0; i < pipeCount; i++) {
         if (bird.x >= pipes[i].x && bird.x <= pipes[i].x + 2 &&
             (bird.y < pipes[i].y - 2 || bird.y > pipes[i].y + 2)) {
@@ -76,7 +81,7 @@ int checkCollision() {
     return 0;
 }
 
-void checkScore() {
+void checkScore() { // Verifica se o pássaro passou por um obstáculo.
     for (int i = 0; i < pipeCount; i++) {
         if (bird.x > pipes[i].x + 2 && passed[i] == 0) {
             score++;
@@ -108,7 +113,7 @@ int main() {
     loadScores();
 
     int choice;
-    while (1) {
+    while (1) { // Loop principal do menu.
         showMenu();
         printf("Escolha uma opcao: ");
         scanf("%d", &choice);
@@ -122,7 +127,7 @@ int main() {
             initGame();
             printf("Pressione Espaço para pular.\n");
 
-            while (1) {
+            while (1) { // Loop principal do jogo.
                 updateGame();
                 checkScore();
                 Draw(bird, pipes, pipeCount, score);
@@ -139,7 +144,7 @@ int main() {
 
                 gameTime++;
                 if (gameTime % 30 == 0) {
-                    delayTime *= accelerationFactor;
+                    delayTime *= accelerationFactor; // Acelera o jogo gradualmente.
                 }
 
                 delay(delayTime);
